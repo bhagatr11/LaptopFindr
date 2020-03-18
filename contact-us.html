@@ -10,9 +10,21 @@
 	<link href="https://fonts.googleapis.com/css?family=Roboto&display=swap" rel="stylesheet" />
 	<link href="https://fonts.googleapis.com/css?family=Oleo+Script+Swash+Caps&display=swap" rel="stylesheet" />
 
+	<!-- TinyMCE script tag -->
+	<script src="https://cdn.tiny.cloud/1/no-api-key/tinymce/5/tinymce.min.js" referrerpolicy="origin">
+
+	</script>
+
+
+	<script>
+		tinymce.init({
+        selector: '#contact-us-text-area'
+      });
+	</script>
+
 	<link href="styles.css" rel="stylesheet" />
 	<link href="menu.css" rel="stylesheet" />
-	<link rel="stylesheet" href="login.css">
+	<link rel="stylesheet" href="contact-us.css">
 </head>
 
 <body>
@@ -36,7 +48,13 @@
       <div class="container showcase-inner">
         <div class="login-wrap">
           <div class="login-html">
-            
+            <div class="contact-greeting">
+              <h2>Contact Us</h2>
+              <h2>How can we help?</h2>
+            </div>
+            <div class="tiny-mce-field" style="z-index: 0;">
+              <textarea id="contact-us-text-area" placeholder = "Enter Here..."></textarea>
+            </div>
           </div>
         </div>
       </div>
