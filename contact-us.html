@@ -11,16 +11,16 @@
 	<link href="https://fonts.googleapis.com/css?family=Oleo+Script+Swash+Caps&display=swap" rel="stylesheet" />
 
 	<!-- TinyMCE script tag -->
-	<script src="https://cdn.tiny.cloud/1/no-api-key/tinymce/5/tinymce.min.js" referrerpolicy="origin">
-
-	</script>
-
-
-	<script>
-		tinymce.init({
-        selector: '#contact-us-text-area'
-      });
-	</script>
+	  <script src="https://cdn.tiny.cloud/1/no-api-key/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
+  <script type="text/javascript">
+  tinymce.init({
+    selector: 'textarea#mytextarea',
+    toolbar: false,
+    menubar: false,
+    placeholder: 'What would you like to tell us?',
+    resize: false
+});
+  </script>
 
 	<link href="styles.css" rel="stylesheet" />
 	<link href="menu.css" rel="stylesheet" />
@@ -28,6 +28,7 @@
 </head>
 
 <body>
+
 	<div class="menu-wrap">
 		<input type="checkbox" class="toggler" />
       <div class="hamburger"><div></div></div>
@@ -48,16 +49,21 @@
       <div class="container showcase-inner">
         <div class="login-wrap">
           <div class="login-html">
-            <div class="contact-greeting">
-              <h2>Contact Us</h2>
-              <h2>How can we help?</h2>
-            </div>
-            <div class="tiny-mce-field" style="z-index: 0;">
-              <textarea id="contact-us-text-area" placeholder = "Enter Here..."></textarea>
-            </div>
+  <h2>CONTACT US</h2>
+  <p type="Name:"><input placeholder="Write your name here.."></input></p>
+  <p type="Email:"><input placeholder="Let us know how to contact you back.."></input></p>
+  <p type="Message:">
+  <br>
+  </p>
+   <form method="post">
+    <textarea id="mytextarea"></textarea>
+  </form>
+  <button>Send Message</button>
           </div>
         </div>
       </div>
     </header>
   </body>
 </html>
+
+<!-- <textarea id="contact-us-text-area" placeholder = "What would you like to tell us.."></textarea> -->
