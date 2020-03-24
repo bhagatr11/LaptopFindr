@@ -16,3 +16,13 @@
   padding: 90px 70px 50px 70px;
   background: rgba(40, 57, 101, 0.9);
 }
+
+
+.swiper-container {
+    width: auto;
+    height: auto;
+}
+
+.swiper-container{
+  z-index: 0;
+}

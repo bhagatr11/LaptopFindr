@@ -170,7 +170,7 @@ body2 {
 :before {
   box-sizing: border-box;
 }
-.clearfix:after,
+/* .clearfix:after,
 .clearfix:before {
   content: "";
   display: table;
@@ -178,7 +178,7 @@ body2 {
 .clearfix:after {
   clear: both;
   display: block;
-}
+} */
 a {
   color: inherit;
   text-decoration: none;
@@ -208,9 +208,9 @@ a {
   right: 0;
   bottom: 0;
   position: absolute;
-  transform: rotateY(180deg);
-  -webkit-backface-visibility: hidden;
-  transition: all 0.4s linear;
+  /* transform: rotateY(180deg); */
+  /* -webkit-backface-visibility: hidden; */
+  /* transition: all 0.4s linear; */
 }
 .login-html .sign-in,
 .login-html .sign-up,
@@ -230,8 +230,8 @@ a {
   display: inline-block;
   border-bottom: 2px solid transparent;
 }
-.login-html .sign-in:checked + .tab,
-.login-html .sign-up:checked + .tab {
+.login-html .sign-in + .tab,
+.login-html .sign-up + .tab {
   color: #fff;
   border-color: #1161ee;
 }
@@ -277,7 +277,7 @@ a {
   display: inline-block;
   background: rgba(255, 255, 255, 0.1);
 }
-.login-form .group label .icon:before,
+/* .login-form .group label .icon:before,
 .login-form .group label .icon:after {
   content: "";
   width: 10px;
@@ -296,14 +296,14 @@ a {
   top: 6px;
   right: 0;
   transform: scale(0) rotate(0);
-}
+} */
 .login-form .group .check:checked + label {
   color: #fff;
 }
 .login-form .group .check:checked + label .icon {
   background: #1161ee;
 }
-.login-form .group .check:checked + label .icon:before {
+/* .login-form .group .check:checked + label .icon:before {
   transform: scale(1) rotate(45deg);
 }
 .login-form .group .check:checked + label .icon:after {
@@ -320,7 +320,7 @@ a {
 }
 .login-html .sign-up:checked + .tab + .login-form .sign-up-htm {
   transform: rotate(0);
-}
+} */
 
 .hr {
   height: 2px;

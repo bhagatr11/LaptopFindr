@@ -8,6 +8,8 @@ $(function() {
       crossDomain: true
   });
 
+  var parameters;
+  
   $.post('https://cors-anywhere.herokuapp.com/https://noteb.com/api/webservice.php', 'apikey=JnowHc7dLuCsqIi&method=get_model_info&param[model_id]=1175',
   handleResponse);
 });
@@ -17,24 +19,67 @@ function handleResponse(jsonReturn) {
   var response1 = JSON.parse(jsonReturn);
   var response = JSON.stringify(response1["result"]["0"]);
   //response = response.replace("\\\"(\\w+)\\\":", "$1:");
-  response = response.split("\\\"").join("");
-  response = response.split("\\\\").join("");
-  response = response.split(",").join(", ");
+  response = response.split("\\\"").join(""); //Remove \"
+  response = response.split("\\\\").join(""); //Remove \\
+  response = response.split(",").join(", "); //Put spaces b/w commas
   response = JSON.parse(response);
   console.log(response);
 
- 
+  /*
    Object.keys(response).forEach(function(key) {
      if (typeof response[key] === 'object') {
-          console.table("Key: " + key + ", Value: " + JSON.stringify(response[key]));
+          console.table("Key: " + key + ", Value: " + cleanJSON(response[key]));
      }
      else {
        console.table("Key: " + key + ", Value: " + response[key]);
      }
     });
-  
+  */
+  var elem = document.querySelector(".laptop-card");
+  setLaptopInfo(response, elem);
 }
 
+function setLaptopInfo(info, elem) {
+  elem.querySelector(".laptop-picture").setAttribute("src", `${info.model_resources.thumbnail}`);
+  elem.querySelector(".laptop-name").textContent = `Name: ${info["model_info"]["0"]["name"]}`;
+  elem.querySelector(".laptop-price").textContent = `Price Range: \$${info.config_price_min} - ${info.config_price_max}`;
+  elem.querySelector(".laptop-ram").textContent = `RAM: ${info.memory.size} GB, ${info.memory.speed} MHz (${info.memory.type})`;
+  elem.querySelector(".laptop-disk").textContent = `Storage: ${info.primary_storage.model}, ${info.primary_storage.cap} GB (${info.cpu.read_speed || 'N/A'} MB/s)`;
+  elem.querySelector(".laptop-screen").textContent = `Screen: ${info.display.size}\` ${info.display.horizontal_resolution} x ${info.display.vertical_resolution}p, ${info.display.type}`;
+  elem.querySelector(".laptop-processor").textContent = `CPU: ${info.cpu.prod} ${info.cpu.model} ${info.cpu.cores} Cores (${info.cpu.base_speed} GHz)`;
+  elem.querySelector(".laptop-os").textContent = `OS: ${info.operating_system}`;
+  elem.querySelector(".laptop-video-card").textContent = `GPU: ${info.gpu.prod} ${info.gpu.model}, (${info.gpu.base_speed} MHz)`;
+  elem.querySelector(".laptop-battery-life").textContent = `Battery life: ${info.battery_life_hours} hours `;
+}
+
+function cleanJSON(jsonObject) {
+  Object.keys(jsonObject).forEach(function(key) {
+    key.split("\"", "").join("");
+  });
+  return JSON.stringify(jsonObject);
+}
+
+function getKeyValueJson(obj, html) {
+  $.each(obj, function(key, value) {
+    
+    value = parseJSON(value) || value;
+    
+    if (value == null) {
+      return
+    }
+    console.log(typeof value);
+    if (typeof value == 'object') {
+      html += getKeyValueJson(value, html);
+    } else {
+      html += '<label>' + key + '</label> :-  <label>' + value + '</label><br>';
+    }
+  });
+  return html;
+}
+
+function parseJSON(str) {
+  try { return JSON.parse(str);  } catch(e) { return false; }
+}
 
 /*
 window.addEventListener('load', init);
