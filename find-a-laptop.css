@@ -2,8 +2,8 @@
 .login-wrap {
   width: 100%;
   margin: auto;
-  max-width: 99vw;
-  min-height: 80vh;
+  max-width: 95vw;
+  min-height: 95vh;
   position: absolute;
   background: url(https://i.imgur.com/HgflTDf.jpg) cover center;
   box-shadow: 0 12px 15px 0 rgba(0, 0, 0, 0.24),
@@ -13,16 +13,70 @@
   width: 100%;
   height: 100%;
   position: absolute;
-  padding: 90px 70px 50px 70px;
-  background: rgba(40, 57, 101, 0.9);
+  /* padding: 90px 70px 50px 70px; */
+  background: rgba(40, 57, 101, 0.85);
+  /* background: #e6e6e6; */
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+
+#logout-btn{
+  position: absolute;
+  top:0;
+  right: 1%;
+  z-index: 1;
+}
+
+.navbar{
+  width: 100%;
 }
 
 
 .swiper-container {
-    width: auto;
+    width: 100%;
     height: auto;
+    z-index: 0;
 }
 
-.swiper-container{
-  z-index: 0;
+/* width */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  box-shadow: inset 0 0 5px rgb(41, 41, 41);
+  border-radius: 10px;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: rgb(22, 22, 22);
+  border-radius: 10px;
+}
+
+
+.swiper-slide {
+  text-align: center;
+  font-size: 18px;
+  background: #fff;
+
+  /* Center slide text vertically */
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: -webkit-flex;
+  display: flex;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  -webkit-justify-content: center;
+  justify-content: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  -webkit-align-items: center;
+  align-items: center;
+}
+
+
+.dark-grey-text{
+  margin: 15% auto;
 }

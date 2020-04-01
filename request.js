@@ -8,22 +8,93 @@ $(function() {
       crossDomain: true
   });
 
+  /*
   var parameters;
   
   $.post('https://cors-anywhere.herokuapp.com/https://noteb.com/api/webservice.php', 'apikey=JnowHc7dLuCsqIi&method=get_model_info&param[model_id]=1175',
   handleResponse);
+  */
 });
 
+function titleCase(str) {
+   var splitStr = str.toLowerCase().split(' ');
+   for (var i = 0; i < splitStr.length; i++) {
+       // You do not need to check if i is larger than splitStr length, as your for does that for you
+       // Assign it back to the array
+       splitStr[i] = splitStr[i].charAt(0).toUpperCase() + splitStr[i].substring(1);     
+   }
+   // Directly return the joined string
+   return splitStr.join(' '); 
+}
 
-function handleResponse(jsonReturn) { 
+
+$(".laptop-search-btn").bind( "click", function() {
+
+  var text = document.querySelector(".laptop-search-bar").value;
+  
+  $.post('https://cors-anywhere.herokuapp.com/https://noteb.com/api/webservice.php', 'apikey=JnowHc7dLuCsqIi&method=list_models&param[model_name]=' + titleCase(text),
+  handleResponse);
+});
+
+function handleResponse(jsonReturn) {
   var response1 = JSON.parse(jsonReturn);
-  var response = JSON.stringify(response1["result"]["0"]);
-  //response = response.replace("\\\"(\\w+)\\\":", "$1:");
-  response = response.split("\\\"").join(""); //Remove \"
-  response = response.split("\\\\").join(""); //Remove \\
-  response = response.split(",").join(", "); //Put spaces b/w commas
-  response = JSON.parse(response);
-  console.log(response);
+  console.log(response1);
+  if (response1.code == 30) {
+      //return error message, too much models found
+  }
+  else if (response1.code == 26) {
+    document.querySelector('.laptop-card-holder').innerHTML = '';
+    var response = response1["result"];
+     
+    console.log(response);
+    response = JSON.stringify(response);
+    response = response.split("\\\"").join(""); //Remove \"
+    response = response.split("\\\\").join(""); //Remove \\
+    response = response.split(",").join(", "); //Put spaces b/w commas
+    response = JSON.parse(response);
+    var i = 0;
+    var ogResponse = response;
+    while (response.hasOwnProperty("" + i) && i < 6) {
+        //response = response.replace("\\\"(\\w+)\\\":", "$1:");
+      response = response["" + i];
+      $.post('https://cors-anywhere.herokuapp.com/https://noteb.com/api/webservice.php', `apikey=JnowHc7dLuCsqIi&method=get_model_info_all&param[model_id]=${"" + response["model_info"]["0"]["id"]}`, handleSingleLaptopResponse);
+      i++;
+      response = ogResponse;
+    }
+    
+    
+  }
+} 
+
+function handleSingleLaptopResponse(jsonReturn) { 
+  
+  var response1 = JSON.parse(jsonReturn);
+  console.log(response1);
+  if (response1.code == 30) {
+      //return error message, too much models found
+  }
+  else if (response1.code == 26) {
+    var response = response1["result"];
+    if (response.hasOwnProperty("0")) {
+      //response = response.replace("\\\"(\\w+)\\\":", "$1:");
+      console.log(response);
+      response = JSON.stringify(response);
+      response = response.split("\\\"").join(""); //Remove \"
+      response = response.split("\\\\").join(""); //Remove \\
+      response = response.split(",").join(", "); //Put spaces b/w commas
+      response = JSON.parse(response);
+      console.log(response);
+
+      var elem = createNewLaptopCard();
+      document.querySelector('.laptop-card-holder').appendChild(elem);
+      setLaptopInfo(response["0"], elem);
+    }
+    
+    
+    
+  }
+  
+  
 
   /*
    Object.keys(response).forEach(function(key) {
@@ -35,28 +106,39 @@ function handleResponse(jsonReturn) {
      }
     });
   */
-  var elem = document.querySelector(".laptop-card");
-  setLaptopInfo(response, elem);
+  
+  
+ 
+}
+
+function createNewLaptopCard() {
+  var template = document.createElement('div');
+  template.innerHTML = '<div class="card border-light mb-3" style="width: 18rem;"><img src="https://noteb.com/res/img/models/949_2.jpg" class="card-img-top laptop-picture" alt="..."><div class="card-body"></div><ul class="list-group list-group-flush text-dark"><li class="list-group-item text-dark laptop-name">Brand</li><li class="list-group-item text-dark laptop-price">Price</li><li class="list-group-item text-dark laptop-ram">RAM</li><li class="list-group-item text-dark laptop-disk">Disk</li><li class="list-group-item text-dark laptop-screen">Screen</li><li class="list-group-item text-dark laptop-cpu">Processor</li><li class="list-group-item text-dark laptop-os">OS</li><li class="list-group-item text-dark laptop-gpu">Video Card</li><li class="list-group-item text-dark laptop-battery-life">Battery</li></ul><div class="card-body text-dark"><a href="#" class="btn">Add to Favourites</a></div>';
+
+  return template;
 }
 
 function setLaptopInfo(info, elem) {
   elem.querySelector(".laptop-picture").setAttribute("src", `${info.model_resources.thumbnail}`);
   elem.querySelector(".laptop-name").textContent = `Name: ${info["model_info"]["0"]["name"]}`;
-  elem.querySelector(".laptop-price").textContent = `Price Range: \$${info.config_price_min} - ${info.config_price_max}`;
-  elem.querySelector(".laptop-ram").textContent = `RAM: ${info.memory.size} GB, ${info.memory.speed} MHz (${info.memory.type})`;
-  elem.querySelector(".laptop-disk").textContent = `Storage: ${info.primary_storage.model}, ${info.primary_storage.cap} GB (${info.cpu.read_speed || 'N/A'} MB/s)`;
-  elem.querySelector(".laptop-screen").textContent = `Screen: ${info.display.size}\` ${info.display.horizontal_resolution} x ${info.display.vertical_resolution}p, ${info.display.type}`;
-  elem.querySelector(".laptop-processor").textContent = `CPU: ${info.cpu.prod} ${info.cpu.model} ${info.cpu.cores} Cores (${info.cpu.base_speed} GHz)`;
-  elem.querySelector(".laptop-os").textContent = `OS: ${info.operating_system}`;
-  elem.querySelector(".laptop-video-card").textContent = `GPU: ${info.gpu.prod} ${info.gpu.model}, (${info.gpu.base_speed} MHz)`;
+  elem.querySelector(".laptop-price").textContent = `Price Range: \$${info.config_price_min} - \$${info.config_price_max}`;
+  elem.querySelector(".laptop-ram").textContent = `RAM: ${returnSAttr(info, ["memory", "size"])} GB, ${returnSAttr(info, ["memory", "speed"])} MHz (${returnSAttr(info, ["memory", "type"])})`;
+  elem.querySelector(".laptop-disk").textContent = `Storage: ${returnSAttr(info, ["primary_storage", "model"])}, ${returnSAttr(info, ["primary_storage", "cap"])} GB (${returnSAttr(info, ["primary_storage", "read_speed"]) || 'N/A'} MB/s)`;
+  elem.querySelector(".laptop-screen").textContent = `Screen: ${returnSAttr(info, ["display", "size"])}\` ${returnSAttr(info, ["display", "horizontal_resolution"])} x ${returnSAttr(info, ["display", "vertical_resolution"])}p, ${returnSAttr(info, ["display", "type"])}`;
+  elem.querySelector(".laptop-cpu").textContent = `CPU: ${returnSAttr(info, ["cpu", "prod"])} ${returnSAttr(info, ["cpu", "model"])} ${returnSAttr(info, ["cpu", "cores"])} Cores (${returnSAttr(info, ["cpu", "base_speed"])} GHz)`;
+  elem.querySelector(".laptop-os").textContent = `OS: ${returnSAttr(info, ["operating_system", "name"])}`;
+  elem.querySelector(".laptop-gpu").textContent = `GPU: ${returnSAttr(info, ["gpu", "prod"])} ${returnSAttr(info, ["gpu", "model"])}, (${returnSAttr(info, ["gpu", "base_speed"])} MHz)`;
   elem.querySelector(".laptop-battery-life").textContent = `Battery life: ${info.battery_life_hours} hours `;
 }
 
-function cleanJSON(jsonObject) {
-  Object.keys(jsonObject).forEach(function(key) {
-    key.split("\"", "").join("");
-  });
-  return JSON.stringify(jsonObject);
+
+function returnSAttr(jsonObj, attrList) {
+  if (typeof jsonObj[attrList[0]] === 'object') {
+    return jsonObj[attrList[0]]["" + jsonObj[attrList[0]]["selected"]][attrList[1]];
+  }
+
+  return "";
+  
 }
 
 function getKeyValueJson(obj, html) {
