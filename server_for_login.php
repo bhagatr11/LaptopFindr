@@ -3,8 +3,8 @@
 session_start();
 
 $servername="localhost";
-$username="patel1ik_Practice";
-$database="patel1ik_Practice";
+$username="patel1ik_Practice1";
+$database="patel1ik_Practice1";
 $passwordD="group1";
 $errors = array();
 
@@ -39,7 +39,7 @@ $get_result=mysqli_fetch_assoc($result);
 if(mysqli_num_rows($result)){
      $_SESSION['username']=$username;
     $_SESSION['success']="Logged in successfully";
-    header('location: newFile.php');
+    header('location: find-a-laptop.html');
 }
 else{
     array_push($errors,"Wrong username/password. Please try again ");
