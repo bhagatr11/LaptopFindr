@@ -243,12 +243,12 @@ session_start();
                                     <option value="1">Intel</option>
                                     <option value="2">Intel i3</option>
                                     <option value="3">Intel i5</option>
-                                    <option value="4">Intel i7</option>
-                                    <option value="5">AMD</option>
-                                    <option value="6">AMD Ryzen 3</option>
-                                    <option value="7">AMD Ryzen 5</option>
-                                    <option value="8">AMD Ryzen 7</option>
-                          
+                                    <option value="3">Intel i7/i9</option>
+                                    <option value="3">AMD</option>
+                                    <option value="3">AMD Ryzen</option>
+                                    <option value="3">Multithreading</option>
+                                    <option value="3">4-core</option>
+                                    <option value="3">6-core</option>
                                 </select>
                             </div>
 
@@ -258,9 +258,11 @@ session_start();
                                 </div>
                                 <select class="custom-select" id="dTypeInputGroupSelect">
                                     <option selected>Choose...</option>
-                                    <option value="1">IPS</option>
+                                    <option value="1">IPS/OLED</option>
                                     <option value="2">TN</option>
-                                    <option value="3">OLED</option>
+                                    <option value="3">FHD</option>
+                                    <option value="3">120Hz+ Panel</option>
+                                    <option value="3">Other</option>
 
                                 </select>
                             </div>
@@ -271,8 +273,8 @@ session_start();
                                 </div>
                                 <select class="custom-select" id="gpuInputGroupSelect">
                                     <option selected>Choose...</option>
-                                    <option value="1">Intel</option>
-                                    <option value="2">Nvidia</option>
+                                    <option value="1">Built-In</option>
+                                    <option value="2">NVidia</option>
                                     <option value="3">ATI</option>
                                 </select>
                             </div>
@@ -284,7 +286,7 @@ session_start();
                                 <select class="custom-select" id="osInputGroupSelect">
                                     <option selected>Choose...</option>
                                     <option value="1">Windows</option>
-                                    <option value="2">Mac OS</option>
+                                    <option value="2">MacOS</option>
                                     <option value="3">Linux</option>
                                 </select>
                             </div>
@@ -321,20 +323,6 @@ session_start();
                                 </select>
                             </div>
 
-                            <div class="input-group mb-3">
-                                <div class="input-group-prepend">
-                                    <label class="input-group-text" for="inputGroupSelect01">Storage Type</label>
-                                </div>
-                                <select class="custom-select" id="sTypeInputGroupSelect">
-                                    <option selected>Choose...</option>
-                                    <option value="1">SSD</option>
-                                    <option value="2">HDD</option>
-                                    <option value="3">SSHD</option>
-                                    <option value="4">EMMC</option>
-                            
-                                </select>
-                            </div>
-
 
 
 
@@ -364,8 +352,8 @@ session_start();
                             <!-- Additional required wrapper -->
                             <!-- <div class="swiper-wrapper"> -->
                             <!-- Slides -->
-                            <div class="laptop-card-holder rounded animated bounce">
-                                <!--<div class="card border-light mb-3" style="width: 18rem;">
+                            <div class="laptop-card-holder rounded">
+                                <div class="card border-light mb-3" style="width: 18rem;">
                                     <img src="https://noteb.com/res/img/models/949_2.jpg" class="card-img-top laptop-picture" alt="...">
                                     <div class="card-body">
                                         <h5 class="card-title">Brand</h5>
@@ -386,7 +374,7 @@ session_start();
                                         <a href="#" modelID= "503" class="btn add-favourite-btn">Add to Favourites</a>
                                     </div>
                                 </div>
-                            </div> -->
+                            </div>
 
                             <!-- </div> -->
                             <!-- If we need pagination

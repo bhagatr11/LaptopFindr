@@ -39,7 +39,7 @@ $get_result=mysqli_fetch_assoc($result);
 if(mysqli_num_rows($result)){
      $_SESSION['username']=$username;
     $_SESSION['success']="Logged in successfully";
-    header('location: find-a-laptop.html');
+    header('location: find-a-laptop.php');
 }
 else{
     array_push($errors,"Wrong username/password. Please try again ");

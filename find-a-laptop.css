@@ -22,8 +22,15 @@
 
 #logout-btn{
   position: absolute;
-  top:0;
-  right: 1%;
+  top:1%;
+  right: 3.5%;
+  z-index: 1;
+}
+
+#profile-btn{
+  position: absolute;
+  top:8%;
+  right: 3.5%;
   z-index: 1;
 }
 
@@ -70,7 +77,71 @@
 
 .options{
   display: flex;
-  flex-direction: row;
-  justify-content: space-evenly;
+  width: 20%;
+  align-self: flex-start;
+  flex-direction: column;
+  justify-content: space-between;
   align-items: center;
+}
+
+
+
+.search-btn{
+    display: flex;
+    background: #2f3640;
+    justify-content: center;
+    width: 22px;
+    height: 22px;
+    border-radius: 100%;
+    align-items: center;
+    float: right;
+    color: whitesmoke;
+    transition: 0.4s;
+}
+.search-txt{
+    border: none;
+    color: white;
+    float: left;
+    padding: 0px;
+    font-size: 16px;
+    background: none;
+    transition: 0.4s;
+    line-height: 40px;
+    width: 0px;
+    height: 22px;
+}
+
+ .search-box:hover > .search-txt {
+    width: 240px; 
+    padding: 0 6px; 
+
+} 
+
+.search-box:hover > .search-btn {
+    background: #2f3640; 
+
+} 
+
+.search-box{
+    position: absolute;
+    top: 90%;/**was changed this from 30%**/
+    left: 50%;
+    transform: translate(-50%,-50%);
+    background: #2f3640;
+    height: 40px;
+    border-radius: 40px;
+    padding: 10px;
+
+}
+
+.options{
+  margin-left: 5px;
+  padding-right: 5px;
+}
+
+.lower-div{
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-content: flex-start;
 }

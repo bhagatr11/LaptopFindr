@@ -33,8 +33,8 @@
               <ul>
                 <li><a href="index.html">Home</a></li>
                 <li><a href="login.php">Login</a></li>
-                <li><a href="find-a-laptop.html">Find A Laptop</a></li>
-                <li><a href="contact-us.html">Contact Us</a></li>
+                <li><a href="find-a-laptop.php">Find A Laptop</a></li>
+                <li><a href="contact-us.php">Contact Us</a></li>
               </ul>
             </div>
           </div>
@@ -79,15 +79,15 @@
                   </div>
                   <div class="group">
                     <label for="pass" class="label">Password</label>
-                    <input id="pass" type="password" name="password_1" class="input" data-type="password">
+                    <input id="pass1" type="password" name="password_1" class="input" data-type="password">
                   </div>
                   <div class="group">
                     <label for="pass" class="label">Repeat Password</label>
-                    <input id="pass" type="password" name="password_2" class="input" data-type="password">
+                    <input id="pass2" type="password" name="password_2" class="input" data-type="password">
                   </div>
                   <div class="group">
                     <label for="pass" class="label">Email Address</label>
-                    <input id="pass" type="text" name="email" class="input">
+                    <input id="pass3" type="text" name="email" class="input">
                   </div>
                   <div class="group">
                     <input type="submit" class="button" name="Register_user" value="Sign Up">

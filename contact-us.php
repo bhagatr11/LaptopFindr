@@ -1,3 +1,5 @@
+<?php include('sendEmail.php') ?>
+
 <!DOCTYPE html>
 <html lang="en">
 <link href="style.css">
@@ -28,7 +30,6 @@
 </head>
 
 <body>
-
 	<div class="menu-wrap">
 		<input type="checkbox" class="toggler" />
       <div class="hamburger"><div></div></div>
@@ -37,9 +38,9 @@
           <div>
             <ul>
               <li><a href="index.html">Home</a></li>
-              <li><a href="login.html">Login</a></li>
+              <li><a href="login.php">Login</a></li>
               <li><a href="find-a-laptop.html">Find A Laptop</a></li>
-              <li><a href="contact-us.html">Contact Us</a></li>
+              <li><a href="contact-us.php">Contact Us</a></li>
             </ul>
           </div>
         </div>
@@ -50,15 +51,33 @@
         <div class="login-wrap">
           <div class="login-html">
   <h2>CONTACT US</h2>
-  <p type="Name:"><input placeholder="Write your name here.."></input></p>
-  <p type="Email:"><input placeholder="Let us know how to contact you back.."></input></p>
+  <form action="contact-us.php" method="post">
+      <?php
+        $Msg = "";
+        if(isset($_GET['error']))
+        {
+        $Msg = " Please Fill in the Blanks ";
+        echo $Msg;
+        }
+
+        if(isset($_GET['success']))
+        {
+        $Msg = " Your Message Has Been Sent ";
+        echo $Msg;
+        }
+
+?>  
+
+
+  <p type="Name:" ><input placeholder="Write your name here.." name="Name"></input></p>
+  <p type="Email:" ><input placeholder="Let us know how to contact you back.." name="email"></input></p>
   <p type="Message:">
   <br>
   </p>
-   <form method="post">
-    <textarea id="mytextarea"></textarea>
+
+    <textarea id="mytextarea" rows="10" cols="50" name="text"></textarea>
+    <button type="submit" name="submit">Send Message</button>
   </form>
-  <button>Send Message</button>
           </div>
         </div>
       </div>

@@ -33,8 +33,8 @@
             <ul>
               <li><a href="index.html">Home</a></li>
               <li><a href="login.php">Login</a></li>
-              <li><a href="find-a-laptop.html">Find A Laptop</a></li>
-              <li><a href="contact-us.html">Contact Us</a></li>
+              <li><a href="find-a-laptop.php">Find A Laptop</a></li>
+              <li><a href="contact-us.php">Contact Us</a></li>
             </ul>
           </div>
         </div>

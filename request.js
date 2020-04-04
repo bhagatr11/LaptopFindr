@@ -1,19 +1,117 @@
-$(function() {
+var sliderMin = 0;
+var sliderMax = 30;
+var apiKey = 'JnowHc7dLuCsqIi';
+var favouritesText = '';
+var userName;
+
+function postToDatabase() {
+  //POST to check.php
+  
+  $.ajax({
+      type: "POST",
+      url: "postToDatabase.php",
+      //send username and updated favourites variables
+      data: 'username='+ userName + 'favourites=' + favouritesText,
+      cache: false,
+      success: function(response) {
+        var response_array = JSON.parse(response);
+        favouritesText = response_array['favourites'];
+        //update favourites from database 
+      }
+  });
+
+}
+
+$(document).ready(function() {
+
+  $("#slider-range").slider({
+      range: true,
+      min: 0,
+      max: 30,
+      values: [0, 30],
+      slide: function (event, ui) {
+          $("#amount").val(ui.values[0] + " - " + ui.values[1]);
+          sliderMin = ui.values[0];
+          sliderMax = ui.values[1];
+      }
+    });
+  
+  $("#amount").val($("#slider-range").slider("values", 0) + " - " + $("#slider-range").slider("values", 1));
+
+  /*
+  var mySwiper = new Swiper('.swiper-container', {
+    // Optional parameters
+    direction: 'horizontal',
+    loop: true,
+    slidesPerView: 5,
+    slidesPerGroup: 5,
+    spaceBetween: 50,
+    // loopAdditionalSlides: 0,
+    loopFillGroupWithBlank: true,
+    centeredSlides: true,
+    slideToClickedSlide: true,
+    // watchOverflow: true,
+    // updateOnWindowResize: true,
+
+
+    // If we need pagination
+    pagination: {
+        el: '.swiper-pagination',
+    },
+
+    // Navigation arrows
+    navigation: {
+        nextEl: '.swiper-button-next',
+        prevEl: '.swiper-button-prev',
+    },
+
+    // And if we need scrollbar
+    scrollbar: {
+        el: '.swiper-scrollbar',
+    },
+  });
+  */
+
+  document.querySelector('.laptop-card-holder').addEventListener('click', function(e) {
+    if (e.target && e.target.id == "add-favourite-btn") {
+      //REMOVE model ID database the model 
+      if (favouritesText != '') {
+        favouritesText += ("," + e.target.modelID);
+      }
+      else {
+        favouritesText += e.target.modelID;
+      }
+      
+
+      postToDatabase();
+
+    }
+  });
+
+  /*
   $.ajax({
       type: 'POST',
       url: 'https://cors-anywhere.herokuapp.com/https://noteb.com/api/webservice.php',
       async: true,
       dataType : 'json',   //you may use jsonp for cross origin request
       crossDomain: true
-  });
 
+      
+  });
+  */
   /*
-  var parameters;
   
   $.post('https://cors-anywhere.herokuapp.com/https://noteb.com/api/webservice.php', 'apikey=JnowHc7dLuCsqIi&method=get_model_info&param[model_id]=1175',
   handleResponse);
   */
 });
+
+
+
+/*
+
+*/
+
 
 function titleCase(str) {
    var splitStr = str.toLowerCase().split(' ');
@@ -26,16 +124,43 @@ function titleCase(str) {
    return splitStr.join(' '); 
 }
 
-
 $(".laptop-search-btn").bind( "click", function() {
-
-  var text = document.querySelector(".laptop-search-bar").value;
   
-  $.post('https://cors-anywhere.herokuapp.com/https://noteb.com/api/webservice.php', 'apikey=JnowHc7dLuCsqIi&method=list_models&param[model_name]=' + titleCase(text),
+  var modelName = document.querySelector(".laptop-search-bar").value;
+
+  var cpuSelect = document.getElementById("cpuInputGroupSelect");
+  var cpu = cpuSelect.options[cpuSelect.selectedIndex].text;
+
+  var dTypeSelect = document.getElementById("dTypeInputGroupSelect");
+  var dType = dTypeSelect.options[dTypeSelect.selectedIndex].text;
+
+  var gpuSelect = document.getElementById("gpuInputGroupSelect");
+  var gpu = gpuSelect.options[gpuSelect.selectedIndex].text;
+
+  var minRamSelect = document.getElementById("minRamInputGroupSelect");
+  var minRam = minRamSelect.options[minRamSelect.selectedIndex].text;
+
+  var minHDDSelect = document.getElementById("minHDDInputGroupSelect");
+  var minHDD = minHDDSelect.options[minHDDSelect.selectedIndex].text;
+
+  var osSelect = document.getElementById("osInputGroupSelect");
+  var os = osSelect.options[osSelect.selectedIndex].text;
+
+  var sTypeSelect = document.getElementById("sTypeInputGroupSelect");
+  var sType = sTypeSelect.options[sTypeSelect.selectedIndex].text;
+  /*
+  var priceRange = document.querySelector(".price-range-slider").value;
+
+  var ram = document.querySelector(".price-range-slider").value;
+  */
+
+  
+  $.post('https://cors-anywhere.herokuapp.com/https://noteb.com/api/webservice.php', `apikey=${apiKey}&method=list_models&param[model_name]=${titleCase(modelName)}&param[display_size_min]=${sliderMin}&param[display_size_max]=${sliderMax}&param[display_type]=${dType}&param[cpu_name]=${cpu}&param[gpu_name]=${gpu}&param[min_mem]=${minRam}&param[storage_cap]=${minHDD}&param[opsist]=${os}&param[first_hdd_type]=${sType}`,
   handleResponse);
 });
 
 function handleResponse(jsonReturn) {
+  // console.log(jsonReturn);
   var response1 = JSON.parse(jsonReturn);
   console.log(response1);
   if (response1.code == 30) {
@@ -45,7 +170,7 @@ function handleResponse(jsonReturn) {
     document.querySelector('.laptop-card-holder').innerHTML = '';
     var response = response1["result"];
      
-    console.log(response);
+    console.log(response);  //-----Het
     response = JSON.stringify(response);
     response = response.split("\\\"").join(""); //Remove \"
     response = response.split("\\\\").join(""); //Remove \\
@@ -53,10 +178,10 @@ function handleResponse(jsonReturn) {
     response = JSON.parse(response);
     var i = 0;
     var ogResponse = response;
-    while (response.hasOwnProperty("" + i) && i < 6) {
+    while (response.hasOwnProperty("" + i) && i < 12) {
         //response = response.replace("\\\"(\\w+)\\\":", "$1:");
       response = response["" + i];
-      $.post('https://cors-anywhere.herokuapp.com/https://noteb.com/api/webservice.php', `apikey=JnowHc7dLuCsqIi&method=get_model_info_all&param[model_id]=${"" + response["model_info"]["0"]["id"]}`, handleSingleLaptopResponse);
+      $.post('https://cors-anywhere.herokuapp.com/https://noteb.com/api/webservice.php', `apikey=${apiKey}&method=get_model_info_all&param[model_id]=${"" + response["model_info"]["0"]["id"]}`, handleSingleLaptopResponse);
       i++;
       response = ogResponse;
     }
@@ -112,12 +237,13 @@ function handleSingleLaptopResponse(jsonReturn) {
 
 function createNewLaptopCard() {
   var template = document.createElement('div');
-  template.innerHTML = '<div class="card border-light mb-3" style="width: 18rem;"><img src="https://noteb.com/res/img/models/949_2.jpg" class="card-img-top laptop-picture" alt="..."><div class="card-body"></div><ul class="list-group list-group-flush text-dark"><li class="list-group-item text-dark laptop-name">Brand</li><li class="list-group-item text-dark laptop-price">Price</li><li class="list-group-item text-dark laptop-ram">RAM</li><li class="list-group-item text-dark laptop-disk">Disk</li><li class="list-group-item text-dark laptop-screen">Screen</li><li class="list-group-item text-dark laptop-cpu">Processor</li><li class="list-group-item text-dark laptop-os">OS</li><li class="list-group-item text-dark laptop-gpu">Video Card</li><li class="list-group-item text-dark laptop-battery-life">Battery</li></ul><div class="card-body text-dark"><a href="#" class="btn">Add to Favourites</a></div>';
+  template.innerHTML = '<div class="card border-light mb-3" style="width: 18rem;"><img src="https://noteb.com/res/img/models/949_2.jpg" class="card-img-top laptop-picture" alt="..."><div class="card-body"></div><ul class="list-group list-group-flush text-dark"><li class="list-group-item text-dark laptop-name">Brand</li><li class="list-group-item text-dark laptop-price">Price</li><li class="list-group-item text-dark laptop-ram">RAM</li><li class="list-group-item text-dark laptop-disk">Disk</li><li class="list-group-item text-dark laptop-screen">Screen</li><li class="list-group-item text-dark laptop-cpu">Processor</li><li class="list-group-item text-dark laptop-os">OS</li><li class="list-group-item text-dark laptop-gpu">Video Card</li><li class="list-group-item text-dark laptop-battery-life">Battery</li></ul><div class="card-body text-dark"><a href="#" class="btn add-favourite-btn">Add to Favourites</a></div>';
 
   return template;
 }
 
 function setLaptopInfo(info, elem) {
+  elem.querySelector(".add-favourite-btn").setAttribute("modelID", `${info.model_info.id}`);
   elem.querySelector(".laptop-picture").setAttribute("src", `${info.model_resources.thumbnail}`);
   elem.querySelector(".laptop-name").textContent = `Name: ${info["model_info"]["0"]["name"]}`;
   elem.querySelector(".laptop-price").textContent = `Price Range: \$${info.config_price_min} - \$${info.config_price_max}`;
