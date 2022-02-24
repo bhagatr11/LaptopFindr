@@ -1,4 +1,4 @@
-# COMP3340LaptopFindr
+# LaptopFindr
 
 We made a project called LaptopFindr which basically helps users find only the best laptops why user's preferred specs.
 
